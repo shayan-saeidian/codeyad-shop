@@ -36,4 +36,18 @@ class Category extends Model
         }
         return $array;
     }
+    protected static function boot()
+    {
+        parent::boot();
+        self::deleting(function($category){
+            foreach ($category->childCategory()->withTrashed()->get() as $child){
+                $child->deleteQuietly();
+            }
+        });
+        self::restoring(function($category){
+            foreach ($category->childCategory()->withTrashed()->get() as $child){
+                $child->restore();
+            }
+        });
+    }
 }
