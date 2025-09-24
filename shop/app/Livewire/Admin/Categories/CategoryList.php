@@ -72,7 +72,7 @@ class CategoryList extends Component
     #[Computed()]
     public function categories(): Paginator
     {
-        return Category::query()->paginate(1);
+        return Category::query()->paginate(4);
     }
     #[Layout('admin.master'),Title('لیست دسته بندی ها')]
     public function render():View
