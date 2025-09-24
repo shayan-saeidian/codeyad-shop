@@ -5,7 +5,7 @@
         <div class="mb-5">
             <h1 class="m-4 text-xl font-semibold">ایجاد دسته بندی</h1>
             <form  class="space-y-5">
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-4">
                     <div>
                         <label for="name">نام دسته بندی</label>
                         <input wire:model="name" id="name" type="text"  class="form-input">
@@ -16,18 +16,16 @@
                     <div>
                         <label for="parent_id">دسته بندی پدر</label>
                         <select wire:model="parent_id" id="ctnSelect1" class="form-select text-white-dark" required="">
-                            <option>این منوی انتخابی را باز کنید</option>
-                            <option>یک</option>
-                            <option>دو</option>
-                            <option>سه</option>
+                            <option>دسته بندی اصلی</option>
+                            @foreach($categories as $key =>$value)
+                                <option value="{{$key}}">{{$value}}</option>
+                            @endforeach
+
                         </select>
                         @error('parent_id')
                         <p class="text-danger mt-1">{{$message}}</p>
                         @enderror
                     </div>
-
-                </div>
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                         <label for="image">عکس</label>
                         <input wire:model="image" id="ctnFile" type="file" class="p-0 rtl:file-ml-5 form-input file:border-0 file:bg-primary/90 file:py-2 file:px-4 file:font-semibold file:text-white file:hover:bg-primary ltr:file:mr-5" required="">
@@ -35,14 +33,16 @@
                         <p class="text-danger mt-1">{{$message}}</p>
                         @enderror
                     </div>
-
-
+                    <div>
+                        @if($editIndex)
+                            <button wire:click.prevent="updateRow" class="btn btn-primary !mt-6">ویرایش</button>
+                        @else
+                            <button wire:click.prevent="createRow" class="btn btn-success !mt-6">ثبت</button>
+                        @endif
+                    </div>
                 </div>
-                @if($editIndex)
-                    <button wire:click.prevent="updateRow" class="btn btn-primary !mt-6">ویرایش</button>
-                @else
-                    <button wire:click.prevent="createRow" class="btn btn-success !mt-6">ثبت</button>
-                @endif
+
+
 
             </form>
         </div>
@@ -54,6 +54,8 @@
                     <thead>
                     <tr>
                         <th class="text-center">ردیف</th>
+                        <th class="text-center">عکس</th>
+
                         <th class="text-center">نام دسته بندی</th>
                         <th class="text-center">دسته بندی پدر</th>
                         <th class="text-center">تاریخ دسته بندی</th>
@@ -64,9 +66,12 @@
                     @foreach($this->categories as $index => $category)
                         <tr>
                             <td >{{$this->categories->firstItem()+$index}}</td>
+                            <td class="whitespace-nowrap flex items-center justify-center">
+                                <img src="{{url('images/categories/'.$category->image)}}" alt="image" class="object-cover w-12 h-12 mb-5 rounded-full">
+                            </td>
                             <td class="whitespace-nowrap">{{$category->name}}</td>
-                            <td class="whitespace-nowrap">{{$category->parent_id}}</td>
-                            <td class="whitespace-nowrap">{{$category->created_at}}</td>
+                            <td class="whitespace-nowrap">{{$category->parentCategory->name}}</td>
+                            <td class="whitespace-nowrap">{{Verta::instance($category->created_at)->formatJalaliDate()}}</td>
                             <td class="border-b border-[#ebedf2] p-3 text-center dark:border-[#191e3a]">
                                 <button wire:click="editRow({{$category->id}})" type="button" x-tooltip="Edit">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 ltr:mr-2 rtl:ml-2 text-blue-500">
