@@ -18,11 +18,12 @@ use Livewire\WithPagination;
 class CategoryList extends Component
 {
     use WithPagination,WithFileUploads;
-    #[Validate('required')]
+    #[Validate('required|unique:categories,name')]
     public $name;
     #[Validate('nullable|mimes:jpeg,jpg,png')]
     public $image;
     public $parent_id;
+    public $search;
 
 
     public $editIndex;
@@ -82,10 +83,17 @@ class CategoryList extends Component
         Category::destroy($category_id);
 
     }
+    public function searchData()
+    {
+        $this->categories=Category::query()
+            ->where('name','like','%'.$this->search.'%')
+            ->with('parentCategory')->paginate(4);
+    }
     #[Layout('admin.master'),Title('لیست دسته بندی ها')]
     public function render():View
     {
         $categories = Category::getCategories();
         return view('livewire.admin.categories.category-list',compact('categories'));
     }
+
 }
