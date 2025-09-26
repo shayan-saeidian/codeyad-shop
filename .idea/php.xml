@@ -153,6 +153,9 @@
       <path value="$PROJECT_DIR$/shop/vendor/hekmatinasser/notowo" />
       <path value="$PROJECT_DIR$/shop/vendor/hekmatinasser/verta" />
       <path value="$PROJECT_DIR$/shop/vendor/hekmatinasser/jalali" />
+      <path value="$PROJECT_DIR$/shop/vendor/wireui/heroicons" />
+      <path value="$PROJECT_DIR$/shop/vendor/wireui/wireui" />
+      <path value="$PROJECT_DIR$/shop/vendor/_laravel_idea" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2">

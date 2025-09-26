@@ -144,6 +144,9 @@
       <excludeFolder url="file://$MODULE_DIR$/shop/vendor/hekmatinasser/jalali" />
       <excludeFolder url="file://$MODULE_DIR$/shop/vendor/hekmatinasser/notowo" />
       <excludeFolder url="file://$MODULE_DIR$/shop/vendor/hekmatinasser/verta" />
+      <excludeFolder url="file://$MODULE_DIR$/shop/vendor/wireui/heroicons" />
+      <excludeFolder url="file://$MODULE_DIR$/shop/vendor/wireui/wireui" />
+      <excludeFolder url="file://$MODULE_DIR$/shop/vendor/_laravel_idea" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
