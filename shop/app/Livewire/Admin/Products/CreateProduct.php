@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Admin\Products;
 
+use App\Enums\ProductStatus;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\product;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
@@ -31,8 +34,7 @@ class CreateProduct extends Component
     public $category_id;
     #[Validate('required')]
     public $brand_id;
-    #[Validate('required')];
-    #[Validate('nullable|mimes:jpeg,jpg,png')]
+    #[Validate('required|mimes:jpeg,jpg,png')]
     public $image;
     public $editIndex;
 
@@ -44,14 +46,24 @@ class CreateProduct extends Component
             $this->image->storeAs('images/products/', $image, 'public');
         }
 
-        product::query()->create([
+        Product::query()->create([
             'name' => $this->name,
             'slug' => make_slug($this->name),
-            'image' => $this ->image ? $image : null,
-            'parent_id' => $this->parent_id,
+            'image' => $image,
+            'e_name' => $this->e_name,
+            'price' => $this->price,
+            'discount' => $this->discount,
+            'count' => $this->count,
+            'max_sell' => $this->max_sell,
+            'description' => $this->description,
+            'category_id' => $this->category_id,
+            'brand_id' => $this->brand_id,
+            'status' => ProductStatus::Active->value,
+
         ]);
         session()->flash('success','محصول جدید با موفقیت ایحاد شد');
         $this->reset();
+        $this->redirectRoute('admin.products.list');
     }
 
 
@@ -65,7 +77,12 @@ class CreateProduct extends Component
     #[Layout('admin.master'),Title('ایجاد محصول')]
     public function render():View
     {
-        $products = product::getproducts();
-        return view('livewire.admin.products.create-product',compact('products'));
+        $categories = Category::query()
+            ->where('parent_id', '!=',null)
+            ->pluck('name', 'id');
+
+        $brands = Brand::query()
+            ->pluck('name', 'id');
+        return view('livewire.admin.products.create-product',compact('categories','brands'));
     }
 }

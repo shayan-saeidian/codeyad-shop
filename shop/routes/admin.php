@@ -10,6 +10,7 @@ use App\Livewire\Admin\Guaranties\GuarantyList;
 use App\Livewire\Admin\Guaranties\TrashedGuarantyList;
 use App\Livewire\Admin\Panel;
 use App\Livewire\Admin\Products\CreateProduct;
+use App\Livewire\Admin\Products\EditProduct;
 use App\Livewire\Admin\Products\ProductList;
 use App\Livewire\Admin\Products\TrashedProductList;
 use App\Livewire\Admin\Users\UserList;
@@ -34,4 +35,5 @@ Route::get('/trashed_guaranties', TrashedGuarantyList::class)->name('admin.trash
 //products
 Route::get('/products', ProductList::class)->name('admin.products.list');
 Route::get('/trashed_products', TrashedProductList::class)->name('admin.trashed_products.list');
-Route::get('/creaTE_product', CreateProduct::class)->name('admin.create.product');
+Route::get('/create_product', CreateProduct::class)->name('admin.create.product');
+Route::get('/edit_product/{product}', EditProduct::class)->name('admin.edit.product');
